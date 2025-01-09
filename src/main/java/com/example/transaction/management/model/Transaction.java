@@ -1,5 +1,6 @@
-package com.org.example.transaction.management.model;
+package com.example.transaction.management.model;
 
+import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicLong;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ public class Transaction {
     private String toAccountId;
 
     // 交易金额
-    private double amount;
+    private BigDecimal amount;
 
     // 交易货币
     private String currency;
@@ -65,7 +66,9 @@ public class Transaction {
 
     // 交易类型的整数表示
     public enum TransactionType {
-        DEBIT(1), CREDIT(2);
+        UNKNOWN_TYPE(0),
+        DEBIT(1),
+        CREDIT(2);
 
         private final int code;
 
@@ -76,11 +79,24 @@ public class Transaction {
         public int getCode() {
             return code;
         }
+
+        public static TransactionType fromCode(int code) {
+            for (TransactionType type : TransactionType.values()) {
+                if (type.getCode() == code) {
+                    return type;
+                }
+            }
+            return UNKNOWN_TYPE;
+        }
     }
 
     // 交易状态的整数表示
     public enum TransactionStatus {
-        PENDING(1), COMPLETED(2), FAILED(3), REVERSED(4);
+        INVALID(0), //非法状态
+        PENDING(1),
+        COMPLETED(2),
+        FAILED(3),
+        REVERSED(4);
 
         private final int code;
 
@@ -91,11 +107,25 @@ public class Transaction {
         public int getCode() {
             return code;
         }
+
+        public static TransactionStatus fromCode(int code) {
+            for (TransactionStatus status : TransactionStatus.values()) {
+                if (status.getCode() == code) {
+                    return status;
+                }
+            }
+            return INVALID;
+        }
     }
 
     // 交易场景的整数表示
     public enum TransactionScene {
-        ATM(1), POS(2), ONLINE_BANKING(3), MOBILE_PAYMENT(4), OTHER(5);
+        UNKNOWN_SCENE(0),
+        ATM(1),
+        POS(2),
+        ONLINE_BANKING(3),
+        MOBILE_PAYMENT(4),
+        OTHER(5);
 
         private final int code;
 
@@ -105,6 +135,15 @@ public class Transaction {
 
         public int getCode() {
             return code;
+        }
+
+        public static TransactionScene fromCode(int code) {
+            for (TransactionScene scene : TransactionScene.values()) {
+                if (scene.getCode() == code) {
+                    return scene;
+                }
+            }
+            return UNKNOWN_SCENE;
         }
     }
 }
