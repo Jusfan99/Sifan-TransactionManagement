@@ -7,11 +7,11 @@
            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- 定义自定义拦截器 -->
-    <bean id="customInterceptor" class="com.example.transaction.management.interceptor.TransactionInterceptor"/>
+    <bean id="customInterceptor" class="com.jusfan.transaction.management.interceptor.TransactionInterceptor"/>
 
     <!-- 配置拦截器 -->
     <mvc:interceptors>
-        <bean class="com.example.transaction.management.interceptor.TransactionInterceptor"/>
+        <bean class="com.jusfan.transaction.management.interceptor.TransactionInterceptor"/>
     </mvc:interceptors>
 
     <!-- 其他配置，如视图解析器等 -->

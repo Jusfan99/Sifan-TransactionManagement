@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.example.transaction.management.service.TransactionServiceTest
--------------------------------------------------------------------------------
-Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.934 s - in com.example.transaction.management.service.TransactionServiceTest
