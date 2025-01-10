@@ -1,6 +1,7 @@
 package com.example.transaction.management.util;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import com.example.transaction.management.controller.param.TransactionCreateParam;
 import com.example.transaction.management.controller.param.TransactionUpdateParam;
@@ -31,9 +32,12 @@ public class TransactionMapper {
         transaction.setAmount(transactionDTO.getAmount());
         transaction.setCurrency(transactionDTO.getCurrency());
         transaction.setDescription(transactionDTO.getDescription());
-        transaction.setType(transactionDTO.getType().getCode());
-        transaction.setStatus(transactionDTO.getStatus().getCode());
-        transaction.setScene(transactionDTO.getScene().getCode());
+        transaction.setType(
+                Optional.ofNullable(transactionDTO.getType()).orElse(TransactionType.UNKNOWN_TYPE).getCode());
+        transaction.setStatus(
+                Optional.ofNullable(transactionDTO.getStatus()).orElse(TransactionStatus.INVALID).getCode());
+        transaction.setScene(
+                Optional.ofNullable(transactionDTO.getScene()).orElse(TransactionScene.UNKNOWN_SCENE).getCode());
         transaction.setCreatedTime(transactionDTO.getCreatedTime());
         transaction.setInitiatedTime(transactionDTO.getInitiatedTime());
         transaction.setProcessedTime(transactionDTO.getProcessedTime());

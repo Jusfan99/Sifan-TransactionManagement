@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.transaction.management.controller.param.TransactionCreateParam;
+import com.example.transaction.management.controller.param.TransactionQueryParam;
 import com.example.transaction.management.controller.param.TransactionUpdateParam;
+import com.example.transaction.management.controller.vo.Page;
 import com.example.transaction.management.controller.vo.TransactionVO;
 import com.example.transaction.management.model.TransactionDTO;
 import com.example.transaction.management.service.TransactionService;
@@ -66,6 +68,19 @@ public class TransactionController {
                 .map(TransactionMapper::toVO)
                 .collect(Collectors.toList());
         return new ResponseEntity<>(transactionVos, HttpStatus.OK);
+    }
+
+    @PostMapping("/query")
+    public ResponseEntity<Page<TransactionVO>> getAllTransactions(@RequestBody TransactionQueryParam queryParam) {
+        Page<TransactionDTO> dtos = transactionService.findTransactionsByPage(queryParam);
+        if (dtos == null || dtos.getContent() == null || dtos.getContent().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<TransactionVO> vos = dtos.getContent().stream()
+                .map(TransactionMapper::toVO)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(new Page<>(vos, dtos.getTotalElements(), dtos.getPageNumber(), dtos.getPageSize()),
+                HttpStatus.OK);
     }
 
     @PutMapping("/update")
