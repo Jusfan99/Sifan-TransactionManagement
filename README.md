@@ -97,19 +97,17 @@ CREATE TABLE transactions (
 
 在不同接口中添加必要的校验和异常处理逻辑。使用 `GlobalExceptionHandler` 捕获全局异常，确保接口可用性。添加 `TransactionInterceptor`，内部逻辑待填充，以注释形式标注（可能是一些操作记录、上下文填充、权限校验逻辑等）。在不同层级中数据的传递分别以 'Param'、DTO、VO 等形式存在，降低逻辑耦合度。
 
-## 业务逻辑相关
 
+## TransactionService 核心功能设计逻辑
 
-# TransactionService 核心功能设计逻辑
-
-## 添加交易 (`addTransaction`)
+### 添加交易 (`addTransaction`)
 用于创建新的交易记录。接收一个 `TransactionDTO` 对象，进行必要的验证（如账户ID、货币类型和金额是否有效），并将有效的交易信息保存到数据库中。如果验证失败，则返回 `-1` 表示操作未成功。
 
 ```java
 public int addTransaction(TransactionDTO dto)
 ```
 
-## 获取指定交易 (`getTransactionById`)
+### 获取指定交易 (`getTransactionById`)
 根据提供的交易ID从缓存或数据库中检索具体的交易详情，并将其转换为 `TransactionDTO` 对象返回。使用缓存来加速重复查询。
 
 ```java
@@ -117,7 +115,7 @@ public int addTransaction(TransactionDTO dto)
 public TransactionDTO getTransactionById(long id)
 ```
 
-## 获取所有交易 (`getAllTransactions`)
+### 获取所有交易 (`getAllTransactions`)
 返回系统内所有的交易记录列表，以 `TransactionDTO` 返回。同样利用了缓存机制来提升响应速度。
 
 ```java
@@ -125,7 +123,7 @@ public TransactionDTO getTransactionById(long id)
 public List<TransactionDTO> getAllTransactions()
 ```
 
-## 更新交易 (`updateTransaction`)
+### 更新交易 (`updateTransaction`)
 更新特定 ID 的交易记录。在更新之前会清理与该交易相关的缓存条目，以确保后续查询能获得最新的数据。
 
 ```java
@@ -133,7 +131,7 @@ public List<TransactionDTO> getAllTransactions()
 public int updateTransaction(long id, TransactionDTO dto)
 ```
 
-## 删除交易 (`deleteTransaction`)
+### 删除交易 (`deleteTransaction`)
 删除指定 ID 的交易记录，并且清除所有关联的缓存，保证缓存数据和数据库状态的一致性。
 
 ```java
@@ -141,7 +139,7 @@ public int updateTransaction(long id, TransactionDTO dto)
 public boolean deleteTransaction(long id)
 ```
 
-## 按条件分页查询交易 (`findTransactionsByPage`)
+### 按条件分页查询交易 (`findTransactionsByPage`)
 提供了高级查询功能，允许根据多种条件（例如时间范围、账户ID、交易类型等）过滤交易，并支持排序和分页。建议使用 Elasticsearch (ES) 存储数据以便高效查询，并使用 Redis 缓存结果以提高访问速度（本项目因时间和设计原因暂未接入）。
 
 ```java
