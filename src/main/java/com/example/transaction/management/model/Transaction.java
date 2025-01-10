@@ -18,7 +18,7 @@ import lombok.Data;
 public class Transaction {
 
     // 发号器用于生成唯一的交易ID
-    private static final AtomicLong ID_GENERATOR = new AtomicLong(0);
+    private static final AtomicLong ID_GENERATOR = new AtomicLong(100000);
 
     // 交易的唯一标识符
     private long id;

@@ -21,6 +21,8 @@ import com.example.transaction.management.model.TransactionDTO;
 import com.example.transaction.management.repository.TransactionRepository;
 import com.example.transaction.management.util.TransactionMapper;
 
+import io.micrometer.common.util.StringUtils;
+
 /**
  * @author jiasifan
  * Created on 2025-01-09
@@ -33,7 +35,9 @@ public class TransactionService {
 
     public int addTransaction(TransactionDTO dto) {
         Transaction transaction = TransactionMapper.toEntity(dto);
-        if (transaction == null) {
+        if (transaction == null || StringUtils.isBlank(transaction.getFromAccountId()) || StringUtils.isBlank(
+                transaction.getToAccountId()) || StringUtils.isBlank(transaction.getCurrency())
+                || transaction.getAmount() == null) {
             return -1;
         }
         return transactionRepository.save(transaction);

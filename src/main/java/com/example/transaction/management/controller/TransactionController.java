@@ -1,5 +1,6 @@
 package com.example.transaction.management.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,7 @@ public class TransactionController {
         }
         int result = transactionService.addTransaction(dto);
         if (result <= 0) {
+            // 实际需要根据不同的错误码返回不同的错误提示
             return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -52,7 +54,7 @@ public class TransactionController {
     public ResponseEntity<TransactionVO> getTransaction(@RequestParam long id) {
         TransactionDTO dto = transactionService.getTransactionById(id);
         if (dto == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
         TransactionVO vo = TransactionMapper.toVO(dto);
         return new ResponseEntity<>(vo, HttpStatus.OK);
@@ -62,7 +64,7 @@ public class TransactionController {
     public ResponseEntity<List<TransactionVO>> getAllTransactions() {
         List<TransactionDTO> transactions = transactionService.getAllTransactions();
         if (transactions == null || transactions.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
         }
         List<TransactionVO> transactionVos = transactions.stream()
                 .map(TransactionMapper::toVO)
@@ -74,7 +76,7 @@ public class TransactionController {
     public ResponseEntity<Page<TransactionVO>> getAllTransactions(@RequestBody TransactionQueryParam queryParam) {
         Page<TransactionDTO> dtos = transactionService.findTransactionsByPage(queryParam);
         if (dtos == null || dtos.getContent() == null || dtos.getContent().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Page<>(Collections.emptyList(), 0, 0, 0), HttpStatus.OK);
         }
         List<TransactionVO> vos = dtos.getContent().stream()
                 .map(TransactionMapper::toVO)
@@ -91,6 +93,7 @@ public class TransactionController {
         }
         int result = transactionService.updateTransaction(transactionDTO.getId(), transactionDTO);
         if (result <= 0) {
+            // 需要根据不同的错误码返回不同的错误提示
             return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
         }
 
@@ -98,12 +101,12 @@ public class TransactionController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteTransaction(@RequestParam long id) {
+    public ResponseEntity<String> deleteTransaction(@RequestParam long id) {
         boolean isDeleted = transactionService.deleteTransaction(id);
         if (isDeleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("done", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("not found id = " + id, HttpStatus.OK);
         }
     }
 

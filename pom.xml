@@ -23,7 +23,7 @@
     </properties>
 
     <dependencies>
-        <!-- Spring MVC 依赖 -->
+        <!-- Web 开发的核心功能 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -45,35 +45,25 @@
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>5.0.0</version> <!-- 请根据需要选择合适的版本 -->
+            <version>5.0.0</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Spring Boot Starter Web -->
+        <!-- Web 开发支持 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Spring Boot Starter Test -->
+        <!-- 单测 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
         <!-- Spring Boot Starter Cache -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-        <!-- Guava for caching -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>30.1.1-jre</version>
         </dependency>
 
         <!-- Lombok -->

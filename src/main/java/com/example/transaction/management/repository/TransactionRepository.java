@@ -20,6 +20,10 @@ public class TransactionRepository {
     private final Map<Long, Transaction> transactionMap = new ConcurrentHashMap<>();
 
     public int save(Transaction transaction) {
+        if (transactionMap.containsKey(transaction.getId())) {
+            //重复插入
+            return -1;
+        }
         transactionMap.put(transaction.getId(), transaction);
         // 实际返回数据库的write结果
         return 1;
