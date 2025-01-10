@@ -99,11 +99,63 @@ CREATE TABLE transactions (
 
 ## 业务逻辑相关
 
-在 `create`、`update` 等关键写入接口中，需要更加复杂的校验逻辑，比如校验用户信息是否合法、风控校验、重复提交校验、校验用户权限等，需要根据实际场景补充，本项目中未完全实现。
 
-数据查询接口 `query`，为保证接口性能和查询效率，在实际场景中应当接入 `Elasticsearch` 搜索引擎，提高索引能力（本项目中未实现）。
+# TransactionService 核心功能设计逻辑
 
-实际应用场景中， `create` ， `update`，`delete` 后台接口应严格限制，交易管理系统上游数据源应来自真实交易产生的消息记录，通过校验后存储在交易管理系统的持久化存储中。交易管理系统对交易记录大部分应为只读操作（特殊情况除外）。
+## 添加交易 (`addTransaction`)
+用于创建新的交易记录。接收一个 `TransactionDTO` 对象，进行必要的验证（如账户ID、货币类型和金额是否有效），并将有效的交易信息保存到数据库中。如果验证失败，则返回 `-1` 表示操作未成功。
+
+```java
+public int addTransaction(TransactionDTO dto)
+```
+
+## 获取指定交易 (`getTransactionById`)
+根据提供的交易ID从缓存或数据库中检索具体的交易详情，并将其转换为 `TransactionDTO` 对象返回。使用缓存来加速重复查询。
+
+```java
+@Cacheable(value = "transactions", key = "#id")
+public TransactionDTO getTransactionById(long id)
+```
+
+## 获取所有交易 (`getAllTransactions`)
+返回系统内所有的交易记录列表，以 `TransactionDTO` 返回。同样利用了缓存机制来提升响应速度。
+
+```java
+@Cacheable(value = "allTransactions")
+public List<TransactionDTO> getAllTransactions()
+```
+
+## 更新交易 (`updateTransaction`)
+更新特定 ID 的交易记录。在更新之前会清理与该交易相关的缓存条目，以确保后续查询能获得最新的数据。
+
+```java
+@CacheEvict(value = {"transactions", "allTransactions", "paginatedTransactions"}, key = "#id")
+public int updateTransaction(long id, TransactionDTO dto)
+```
+
+## 删除交易 (`deleteTransaction`)
+删除指定 ID 的交易记录，并且清除所有关联的缓存，保证缓存数据和数据库状态的一致性。
+
+```java
+@CacheEvict(value = {"transactions", "allTransactions", "paginatedTransactions"}, key = "#id")
+public boolean deleteTransaction(long id)
+```
+
+## 按条件分页查询交易 (`findTransactionsByPage`)
+提供了高级查询功能，允许根据多种条件（例如时间范围、账户ID、交易类型等）过滤交易，并支持排序和分页。建议使用 Elasticsearch (ES) 存储数据以便高效查询，并使用 Redis 缓存结果以提高访问速度（本项目因时间和设计原因暂未接入）。
+
+```java
+@Cacheable(value = "filteredTransactions", key = "#request.generateCacheKey()")
+public Page<TransactionDTO> findTransactionsByPage(TransactionQueryParam request)
+```
+
+
+
+- 在 `create`、`update` 等关键写入接口中，需要更加复杂的校验逻辑，比如校验用户信息是否合法、风控校验、重复提交校验、校验用户权限等，需要根据实际场景补充，本项目中未完全实现。
+
+- 数据查询接口 `query`，为保证接口性能和查询效率，在实际场景中应当接入 `Elasticsearch` 搜索引擎，提高索引能力（本项目中未实现）。
+
+- 实际应用场景中， `create` ， `update`，`delete` 后台接口应严格限制，交易管理系统上游数据源应来自真实交易产生的消息记录，通过校验后存储在交易管理系统的持久化存储中。交易管理系统对交易记录大部分应为只读操作（特殊情况除外）。
 
 ## POM 依赖解释
 
@@ -120,7 +172,7 @@ mvn test
 ```
 
 测试覆盖率：
-- 服务方法覆盖率：100%
+- Service方法覆盖率：100%
 - 成功率：100%
 
 ![测试示意图](https://github.com/user-attachments/assets/08151e1d-ded5-4092-9d20-e02d0df091c0)
