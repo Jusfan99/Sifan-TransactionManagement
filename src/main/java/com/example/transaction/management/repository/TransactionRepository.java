@@ -22,7 +22,7 @@ public class TransactionRepository {
     public int save(Transaction transaction) {
         if (transactionMap.containsKey(transaction.getId())) {
             //重复插入
-            return -1;
+            return -99;
         }
         transactionMap.put(transaction.getId(), transaction);
         // 实际返回数据库的write结果
