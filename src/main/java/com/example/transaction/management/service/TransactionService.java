@@ -26,7 +26,7 @@ import io.micrometer.common.util.StringUtils;
 /**
  * @author jiasifan
  * Created on 2025-01-09
- * 本项目中唯一的service类，负责处理交易相关crud业务逻辑，缓存也放在这一层
+ * 本项目中唯一的service，负责处理交易相关crud业务逻辑，缓存也放在这一层
  */
 @Service
 public class TransactionService {

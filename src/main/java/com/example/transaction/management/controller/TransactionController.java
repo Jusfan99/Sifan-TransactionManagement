@@ -34,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author jiasifan
  * Created on 2025-01-09
+ * 很多校验不应该放在这一层，但时间原因先耦合在一起
  */
 @RestController
 @RequestMapping("/api/v1/transactions")
