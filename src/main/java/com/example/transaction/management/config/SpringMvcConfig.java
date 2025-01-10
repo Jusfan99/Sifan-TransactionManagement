@@ -31,13 +31,14 @@ class SpringMvcConfig extends WebMvcConfigurationSupport {
                 .setUseTrailingSlashMatch(true);
     }
 
+
     /**
      * 将对于静态资源的请求转发到 Servlet 容器的默认处理静态资源的 Servlet
      * 因为将 Spring 的拦截模式设置为 "/" 时会对静态资源进行拦截
      */
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
+        configurer.enable("defaultServlet");
     }
 
     @Override
