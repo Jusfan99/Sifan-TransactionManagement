@@ -5,6 +5,11 @@ import java.security.MessageDigest;
 
 import lombok.Data;
 
+/**
+ * @author jiasifan
+ * Created on 2025-01-10
+ * 用于接收前端传来的查询参数
+ */
 @Data
 public class TransactionQueryParam {
     private int page = 1; // 默认第一页

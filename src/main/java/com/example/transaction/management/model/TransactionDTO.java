@@ -8,6 +8,11 @@ import com.example.transaction.management.model.Transaction.TransactionType;
 
 import lombok.Data;
 
+/**
+ * @author jiasifan
+ * Created on 2025-01-10
+ * DTO
+ */
 @Data
 public class TransactionDTO {
     private long id;

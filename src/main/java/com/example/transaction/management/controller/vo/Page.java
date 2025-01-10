@@ -2,6 +2,11 @@ package com.example.transaction.management.controller.vo;
 
 import java.util.List;
 
+/**
+ * @author jiasifan
+ * Created on 2025-01-10
+ * 分页类型
+ */
 public class Page<T> {
     private List<T> content;
     private int totalElements;

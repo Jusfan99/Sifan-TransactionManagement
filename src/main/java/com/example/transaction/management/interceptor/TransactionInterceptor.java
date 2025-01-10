@@ -15,7 +15,7 @@ public class TransactionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        // 填充上下文
+        // 填充上下文 可能是运营信息，可能是用户信息，语言？时区？权限？
         HttpContext context = new HttpContext();
 
         /**

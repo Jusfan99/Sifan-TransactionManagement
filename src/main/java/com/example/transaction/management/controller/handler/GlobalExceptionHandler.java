@@ -6,12 +6,22 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import com.example.transaction.management.model.ApiResponse;
+import com.example.transaction.management.model.ErrorCode;
+
+
+/**
+ * @author jiasifan
+ * Created on 2025-01-10
+ * 用于处理全局异常
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGlobalException(Exception ex, WebRequest request) {
-        // 可以根据不同的接口，按需要返回不同的状态码和错误消息提示即可
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        // 最外层封个错误码 可根据业务和不同接口调整
+        return new ResponseEntity<>(new ApiResponse<>(ErrorCode.ERROR.getCode(), ex.getMessage()),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

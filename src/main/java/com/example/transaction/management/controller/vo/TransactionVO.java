@@ -2,6 +2,11 @@ package com.example.transaction.management.controller.vo;
 
 import lombok.Data;
 
+/**
+ * @author jiasifan
+ * Created on 2025-01-10
+ * for 前端展示
+ */
 @Data
 public class TransactionVO {
     private long id;

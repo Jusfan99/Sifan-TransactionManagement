@@ -17,6 +17,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import com.example.transaction.management.interceptor.TransactionInterceptor;
 
+/**
+ * @author jiasifan
+ * Created on 2025-01-10
+ */
 @Configuration
 class SpringMvcConfig extends WebMvcConfigurationSupport {
     /**

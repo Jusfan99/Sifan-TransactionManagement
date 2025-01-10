@@ -11,13 +11,15 @@ import lombok.Data;
 /**
  * @author jiasifan
  * Created on 2025-01-09
+ *
+ * 核心实体：交易
  */
 @Data
 @AllArgsConstructor
 @Builder
 public class Transaction {
 
-    // 发号器用于生成唯一的交易ID
+    // 一般使用分布式发号器，此处时间原因简化使用自增id
     private static final AtomicLong ID_GENERATOR = new AtomicLong(100000);
 
     // 交易的唯一标识符

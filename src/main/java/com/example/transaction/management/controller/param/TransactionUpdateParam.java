@@ -2,6 +2,11 @@ package com.example.transaction.management.controller.param;
 
 import lombok.Data;
 
+/**
+ * @author jiasifan
+ * Created on 2025-01-10
+ * 用于接收前端传来的更新参数
+ */
 @Data
 public class TransactionUpdateParam {
     // 必传

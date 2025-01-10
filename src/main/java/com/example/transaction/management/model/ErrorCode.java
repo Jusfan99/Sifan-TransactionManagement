@@ -1,8 +1,16 @@
 package com.example.transaction.management.model;
 
+/**
+ * @author jiasifan
+ * Created on 2025-01-11
+ *
+ * 用于定义 API 接口的错误码和错误信息，业务错误码，自定义号码段
+ */
 public enum ErrorCode {
     // 成功
     SUCCESS(0, "操作成功"),
+
+    ERROR(9999, "操作失败, 请及时联系管理员"),
 
     // 创建相关的错误码
     DUPLICATE_RESOURCE_CREATE(1001, "资源已存在，无法重复创建"),

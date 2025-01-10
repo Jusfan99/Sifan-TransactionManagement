@@ -11,6 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 
+
+/**
+ * @author jiasifan
+ * Created on 2025-01-10
+ */
 @Configuration
 @EnableCaching
 class CacheConfig extends WebMvcConfigurationSupport {
