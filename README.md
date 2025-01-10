@@ -1,6 +1,7 @@
 
 # Sifan-TransactionManagement
 仅用于 HSBC Home Task。
+对题目的理解：我认为题目中的 "application related to transaction management within a banking system" 更可能是银行/金融机构工作人员操作的内部管理系统，用于检视和管理用户真实交易记录。基于此，我们设计了以下系统，以满足这一需求。
 
 ## 环境要求和依赖
 
